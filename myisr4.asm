@@ -1,6 +1,7 @@
 ; Author - Maryanovsky Alla
 ; My own keyboard interrupt + test
 ; You may press a s, e, d buttons for move the star on the display
+IDEAL
 MODEL small
 STACK 100h
 DATASEG
