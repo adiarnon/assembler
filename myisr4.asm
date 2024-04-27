@@ -1479,7 +1479,7 @@ pop bp
 ret 2
 endp taking_bluedimonds
 
-proc enterdoor
+proc enterdoorFB
 push bp
 mov bp,sp
 push bx
@@ -1487,12 +1487,12 @@ push ax
 push cx
 
 mov cx,20
-mov ax,(320*20)+262
-add bx,15
+mov ax,(320*30)+262
+add bx,8
 keepchacking:
     cmp bx,ax
     je win
-    add ax,320
+    inc ax
     add bx,320
     loop keepchacking
     jmp outk
@@ -1506,7 +1506,59 @@ pop ax
 pop bx
 pop bp
 ret
-endp enterdoor
+endp enterdoorFB
+
+proc enterdoorWG
+push bp
+mov bp,sp
+push di
+push ax
+push cx
+
+mov cx,20
+mov ax,(320*30)+292
+add di,8
+keepchacking1:
+    cmp di,ax
+    je win1
+    inc ax
+    add di,320
+    loop keepchacking1
+    jmp outk1
+win1:
+mov cx,'v'
+mov [bp+4],cx
+
+outk1:
+pop cx
+pop ax
+pop di
+pop bp
+ret
+endp enterdoorWG
+
+proc enterdoors
+push bp
+mov bp,sp
+push ax
+push dx
+    push ax
+    call enterdoorfb
+    pop ax
+    cmp ax,'v'
+    jne outdo
+    push dx
+    call enterdoorWG
+    pop dx
+    cmp dx,'v'
+    jne outdo
+    mov [bp+4],dx
+outdo:
+pop dx
+pop ax
+pop bp
+ret
+endp enterdoors
 
 proc gforce
 push bp
@@ -1515,7 +1567,16 @@ push ax
 push bx
 push dx
 push di
+push cx
 
+    mov cl,[gforce1]
+    inc cl
+    cmp cl,10
+    mov [gforce1],cl
+    jne toout
+    mov cx,0
+    mov [gforce1],cl
+    
     push ax
     push bx
     call fireboy_down
@@ -1535,6 +1596,7 @@ mov [bp+4],ax
 toout:
 mov [bp+6],bx
 mov [bp+8],di
+pop cx
 pop di
 pop dx
 pop bx
@@ -1632,10 +1694,6 @@ proc my_program
     push offset reddoor
     push si
     call print_doors
-    ;mov si, (320*50)+190
-    ;push offset cube
-    ;push si
-    ;call print_cube
 main_loop:                            ; none end loop: scan array kbdbuf
     mov si,0
 	mov cx,8
@@ -1682,23 +1740,9 @@ fireboymove:
     pop ax
     cmp ax,'e'
     je toret
-    ;cmp ax,'v'
-    ;jne cont
-    ;cmp dx,'v'
-    ;jne cont
-;change3:
-    ;mov [bp+4],ax
-    ;jmp toret
 cont:	
 	inc si
 	loop check_buttons
-    mov cl,[gforce1]
-    inc cl
-    cmp cl,10
-    mov [gforce1],cl
-    jne main_loop
-    mov cx,0
-    mov [gforce1],cl
     push di
     push bx
     push dx
@@ -1708,8 +1752,20 @@ cont:
     pop di
     cmp dx,'e'
     je toret
-    call delay
+    push ax
+    call enterdoors
+    pop ax
+    cmp ax,'v'
+    je victorypic 
     jmp main_loop
+victorypic:
+    call OpenFilevictory
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
 toret:
     pop ax
 	mov es, ax
@@ -2340,21 +2396,7 @@ continue:
     push offset cubebackground1
     push (320*50)+190
     call cubebackground
-    ;push ax
 	call change_handler              ; put my own keyboard interrupt
-    ;pop ax
-    ;cmp ax,'e'
-	;je exit
-    ;cmp ax,'v'
-    ;je victorypic
-victorypic:
-    call OpenFilevictory
-    call ReadHeader
-    call ReadPalette
-    push offset palette
-    call CopyPal
-    call CopyBitmap
-    call closefile
 exit:
 	mov ah, 0
 	mov al, 2
