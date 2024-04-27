@@ -14,6 +14,7 @@ Palette db 256*4 dup (0)
 ScrLine db 320 dup (0)
 ErrorMsg db 'Error', 13, 10 ,'$'
 map db 'map.bmp',0
+victoryp db 'victory.bmp',0
 gforce1 db 0
 bluedimond  db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
             db 253,253,253,253,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253,253,253,253
@@ -283,24 +284,76 @@ backgroundf db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0
 
 watergirl   db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
             db 253,253,253,253,253,0  ,0  ,0  ,253,253,253,253,253,253,253
-            db 253,253,253,253,0  ,232,232,186,0  ,253,253,253,253,253,253
-            db 253,253,253,0  ,232,232,0  ,0  ,186,0  ,0  ,253,253,253,253
-            db 253,253,0  ,0  ,186,232,0  ,186,232,232,186,0  ,253,253,253
-            db 253,0  ,186,186,186,0  ,64 ,255,232,232,186,186,0  ,253,253
-            db 253,0  ,186,186,0  ,232,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253
-            db 253,0  ,0  ,0  ,186,186,232,232,232,186,186,232,232,0  ,253
-            db 253,0  ,232,186,186,186,186,232,186,186,186,186,232,0  ,253
-            db 253,0  ,232,186,186,0  ,186,232,186,0  ,186,186,232,0  ,253
-            db 253,0  ,232,186,186,186,186,232,186,186,186,186,232,0  ,253
-            db 253,0  ,232,232,232,232,232,232,232,0  ,232,232,232,0  ,253
-            db 253,253,0  ,232,232,186,0  ,0  ,0  ,232,232,232,0  ,253,253
-            db 253,253,0  ,232,232,232,232,232,186,232,232,0  ,253,253,253
-            db 253,0  ,232,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253,253,253,253
-            db 253,0  ,0  ,198,0  ,232,232,232,232,232,0  ,253,253,253,253
-            db 253,253,253,0  ,232,0  ,232,232,232,0  ,232,0  ,253,253,253
-            db 253,253,0  ,232,0  ,0  ,232,0  ,232,0  ,0  ,232,0  ,253,253
+            db 253,253,253,253,0  ,240,240,9  ,0  ,253,253,253,253,253,253
+            db 253,253,253,0  ,240,240,0  ,0  ,9  ,0  ,0  ,253,253,253,253
+            db 253,253,0  ,0  ,9  ,240,0  ,9  ,240,240,9  ,0  ,253,253,253
+            db 253,0  ,9  ,9  ,9  ,0  ,0  ,9  ,240,240,9  ,9  ,0  ,253,253
+            db 253,0  ,9  ,9  ,0  ,240,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253
+            db 253,0  ,0  ,0  ,9  ,9  ,240,240,240,9  ,9  ,240,240,0  ,253
+            db 253,0  ,240,9  ,9  ,9  ,9  ,240,9  ,9  ,9  ,9  ,240,0  ,253
+            db 253,0  ,240,9  ,9  ,0  ,9  ,240,9  ,0  ,9  ,9  ,240,0  ,253
+            db 253,0  ,240,9  ,9  ,9  ,9  ,240,9  ,9  ,9  ,9  ,240,0  ,253
+            db 253,0  ,240,240,240,240,240,240,240,0  ,240,240,240,0  ,253
+            db 253,253,0  ,240,240,9  ,0  ,0  ,0  ,240,240,240,0  ,253,253
+            db 253,253,0  ,240,240,240,240,240,9  ,240,240,0  ,253,253,253
+            db 253,0  ,240,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253,253,253,253
+            db 253,0  ,0  ,198,0  ,240,240,240,240,240,0  ,253,253,253,253
+            db 253,253,253,0  ,240,0  ,240,240,240,0  ,240,0  ,253,253,253
+            db 253,253,0  ,240,0  ,0  ,240,0  ,240,0  ,0  ,240,0  ,253,253
             db 253,253,253,253,253,0  ,0  ,253,0  ,0  ,253,253,253,253,253
             db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
+
+reddoor     db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,16 ,16 ,16 ,16 ,16 ,16 ,17 ,17 ,0  
+            db 0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  
+            db 0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  
+            db 0  ,99 ,99 ,99 ,100,100,100,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,100,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,100,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,100,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,87 ,87 ,87 ,87 ,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,87 ,87 ,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,87 ,87 ,87 ,100,87 ,100,87 ,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,87 ,100,100,100,87 ,100,100,100,100,100,0  ,100,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,87 ,100,100,100,87 ,100,100,100,100,100,0  ,100,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,87 ,100,100,100,87 ,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,87 ,87 ,87 ,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  ,99 ,99 ,0  
+            db 0  ,16 ,16 ,16 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+            db 100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100
+
+bluedoor    db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,16 ,16 ,16 ,16 ,16 ,16 ,17 ,17 ,17 ,0  
+            db 0  ,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,0  
+            db 0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  
+            db 0  ,99 ,99 ,100,100,100,100,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,100,100,100,100,100,100,100,100,100,100,100,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,99 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,9  ,9  ,9  ,9  ,9  ,9  ,99 ,99 ,99 ,99 ,0  ,91 ,100,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,99 ,24 ,24 ,2  ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,9  ,9  ,99 ,99 ,99 ,99 ,99 ,99 ,24 ,99 ,16 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,99 ,24 ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,24 ,2  ,0  
+            db 0  ,99 ,99 ,0  ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,0  ,2  ,16 ,0  
+            db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,100,99 ,99 ,99 ,99 ,99 ,99 ,100,91 ,99 ,16 ,40 ,16 ,0  
+            db 0  ,2  ,2  ,2  ,2  ,24 ,2  ,2  ,0  ,16 ,16 ,16 ,16 ,16 ,16 ,16 ,16 ,0  ,0  ,2  ,2  ,0  
+            db 91 ,16 ,16 ,24 ,40 ,2  ,24 ,24 ,73 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,99 ,73 
 ;==========================================================
 ; kbdbuf - array of 4 numbers: index 0 - down, index 1 - left, index 2 - up, index 3 - right
  ; numbers value 1 - key pressed
@@ -482,6 +535,11 @@ call print_backgroundw
 call delay
 push di
 call taking_bluedimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp dl,'v'
+;je victory
 inc di
 push dx
 call redpool
@@ -497,6 +555,10 @@ push di
 call print_watergirl
 jmp outtr
 ;mov [bp+8],di
+;victory:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtr
 outw1:
 mov cx,'e'
 mov [bp+6],cx
@@ -544,6 +606,11 @@ call print_backgroungf
 call delay
 push bx
 call taking_reddimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp dl,'v'
+;je victory7
 inc bx
 push dx
 call bluepool
@@ -558,7 +625,10 @@ push dx
 push bx
 call print_fireboy
 jmp outtr1
-;mov [bp+8],bx
+;victory7:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtr1
 exittb:
 mov cx,'e'
 mov [bp+6],cx
@@ -683,7 +753,7 @@ cmp ah,232
 je change
 cmp ah,250
 je change
-add bx,15
+add bx,10
 mov ah,[es:bx]
 cmp ah,232
 je change
@@ -712,7 +782,7 @@ cmp ah,249
 je change1
 cmp ah,250
 je change1
-add di,15
+add di,10
 mov ah,[es:di]
 cmp ah,249
 je change1
@@ -768,12 +838,12 @@ push cx
 mov di,[bp+4]            ;di
 cmp si,2
 jne outtu
-;push di
-;push si
-;call borders
-;pop ax
-;cmp al,'u'
-;je outtu
+push di
+push si
+call borders
+pop ax
+cmp al,'u'
+je outtu
 mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
@@ -781,6 +851,11 @@ call print_backgroundw
 call delay
 push di
 call taking_bluedimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp di,'v'
+;je victory6
 sub di,320
 push dx
 call redpool
@@ -796,6 +871,10 @@ push di
 call print_watergirl
 jmp outtu
 ;mov [bp+8],di
+;victory6:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtu
 outw2:
 mov cx,'e'
 mov [bp+6],cx
@@ -824,12 +903,12 @@ push cx
 mov bx,[bp+4]             ;bx
 cmp si,6
 jne outtr2
-;push bx
-;push si
-;call borders
-;pop ax
-;cmp al,'u'
-;je outtr2
+push bx
+push si
+call borders
+pop ax
+cmp al,'u'
+je outtr2
 mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
@@ -837,6 +916,11 @@ call print_backgroungf
 call delay
 push bx
 call taking_reddimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp di,'v'
+;je victory5
 sub bx,320
 push dx
 call bluepool
@@ -852,6 +936,10 @@ push bx
 call print_fireboy
 jmp outtr2
 ;mov [bp+8],bx
+;victory5:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtr2
 exittb1:
 mov cx,'e'
 mov [bp+6],cx
@@ -893,14 +981,15 @@ call print_backgroundw
 call delay
 push di
 call taking_bluedimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp dl,'v'
+;je victory4
 dec di
 push dx
 call redpool
 pop dx
-;push dx
-;push di
-;call greenpool
-;pop dx
 cmp dl,'e'
 je outw3
 push ax
@@ -911,6 +1000,10 @@ push dx
 push di
 call print_watergirl
 jmp outtl
+;victory4:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtl
 outw3:
 mov cx,'e'
 mov [bp+6],cx
@@ -953,6 +1046,11 @@ call print_backgroungf
 call delay
 push bx
 call taking_reddimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp di,'v'
+;je victory3
 dec bx
 push dx
 call bluepool
@@ -967,6 +1065,10 @@ push bx
 call print_fireboy
 jmp outtl2
 ;mov [bp+8],bx
+;victory3:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtl2
 exittb12:
 mov cx,'e'
 mov [bp+6],cx
@@ -1006,6 +1108,11 @@ call print_backgroundw
 call delay
 push di
 call taking_bluedimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp dl,'v'
+;je victory2
 add di,320
 push dx
 call redpool
@@ -1024,6 +1131,10 @@ push dx
 push di
 call print_watergirl
 jmp outtd
+;victory2:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtd
 outd3:
 mov cx,'e'
 mov [bp+6],cx
@@ -1064,6 +1175,11 @@ call print_backgroungf
 call delay
 push bx
 call taking_reddimonds
+;push dx
+;call enterdoor
+;pop dx
+;cmp dl,'v'
+;je victory1
 add bx,320
 push dx
 call bluepool
@@ -1078,6 +1194,10 @@ push bx
 call print_fireboy
 jmp outtd1
 ;mov [bp+8],bx
+;victory1:
+;mov cx,'v'
+;mov [bp+6],cx
+;jmp outtd1
 exittb3:
 mov cx,'e'
 mov [bp+6],cx
@@ -1359,6 +1479,35 @@ pop bp
 ret 2
 endp taking_bluedimonds
 
+proc enterdoor
+push bp
+mov bp,sp
+push bx
+push ax
+push cx
+
+mov cx,20
+mov ax,(320*20)+262
+add bx,15
+keepchacking:
+    cmp bx,ax
+    je win
+    add ax,320
+    add bx,320
+    loop keepchacking
+    jmp outk
+win:
+mov cx,'v'
+mov [bp+4],cx
+
+outk:
+pop cx
+pop ax
+pop bx
+pop bp
+ret
+endp enterdoor
+
 proc gforce
 push bp
 mov bp,sp
@@ -1429,7 +1578,10 @@ proc my_program
 						              ; low byte = character code; high byte = attribute (background+color)
 	mov es, ax
 	
-	
+	;push bp
+    ;mov bp,sp
+
+
 	mov bx, (320*178)+10             ; address on the middle of display, red star
 	push offset fireboy
 	push bx
@@ -1472,7 +1624,15 @@ proc my_program
     push offset bluedimond      
     push si
     call printdimond
-    mov si, (320*50)+190
+    mov si,(320*20)+292
+    push offset bluedoor
+    push si
+    call print_doors
+    mov si, (320*20)+262
+    push offset reddoor
+    push si
+    call print_doors
+    ;mov si, (320*50)+190
     ;push offset cube
     ;push si
     ;call print_cube
@@ -1501,25 +1661,34 @@ watergirlmove:
     call watergirl_left
     pop di
     pop dx
+    cmp dx,'e'
+    je toret
 fireboymove:
-    push dx
+    push ax
     push bx
     ;mov si,7
     call fireboy_right
     pop bx
-    pop dx
-    push dx
+    pop ax
+    push ax
     push bx
 	call fireboy_up
     pop bx
-    pop dx
-    push dx
+    pop ax
+    push ax
     push bx
     call fireboy_left
     pop bx
-    pop dx
-    cmp dx,'e'
+    pop ax
+    cmp ax,'e'
     je toret
+    ;cmp ax,'v'
+    ;jne cont
+    ;cmp dx,'v'
+    ;jne cont
+;change3:
+    ;mov [bp+4],ax
+    ;jmp toret
 cont:	
 	inc si
 	loop check_buttons
@@ -1539,11 +1708,12 @@ cont:
     pop di
     cmp dx,'e'
     je toret
-    ;call delay
+    call delay
     jmp main_loop
 toret:
     pop ax
 	mov es, ax
+    ;pop bp
     ret
 endp my_program
 ;==============================================================
@@ -1849,6 +2019,49 @@ proc print_watergirl
     ret 4
 endp print_watergirl
 
+proc print_doors
+    push bp
+    mov bp, sp
+    push ax
+    push di
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the door adress on the screen
+    mov si, [bp+6]      ;offset reddoor/bluedoor
+    mov cx, 25        ;the image width
+    next_color13:
+
+
+        push cx
+        push di
+        mov cx, 22      ;image length 
+        draw_pixel13:
+            mov ah, [si]
+            cmp ah, 253
+            je next_pixel13
+            mov [es:di], ah  
+            next_pixel13:
+            inc di
+            inc si
+            loop draw_pixel13
+        pop di
+        pop cx
+        add di, 320
+        loop next_color13
+
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop di
+    pop ax
+    pop bp
+ret 4
+endp print_doors
+
 proc print_cube
     push bp
     mov bp, sp
@@ -1950,6 +2163,21 @@ int 21h
 ret
 endp OpenFilemap
 
+proc OpenFilevictory
+mov ah, 3Dh
+xor al, al
+mov dx, offset victoryp
+int 21h
+jc openerror2
+mov [filehandle], ax
+ret
+openerror2 :
+mov dx, offset ErrorMsg
+mov ah, 9h
+int 21h
+ret
+endp OpenFilevictory
+
 proc borders
 push bp
 mov bp,sp
@@ -2017,7 +2245,7 @@ jmp down
 updatel:
 mov al,'l'
 down:
-    add bx,(320*20)
+    add bx,(320*20)+5
     mov cx,10
     next5:
     mov ah,[es:bx]
@@ -2112,8 +2340,21 @@ continue:
     push offset cubebackground1
     push (320*50)+190
     call cubebackground
+    ;push ax
 	call change_handler              ; put my own keyboard interrupt
-	jmp exit
+    ;pop ax
+    ;cmp ax,'e'
+	;je exit
+    ;cmp ax,'v'
+    ;je victorypic
+victorypic:
+    call OpenFilevictory
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
 exit:
 	mov ah, 0
 	mov al, 2
