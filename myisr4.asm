@@ -629,11 +629,6 @@ call borders
 pop ax
 cmp al,'r'
 je outtr1
-;mov cx,(320*50)+190
-;push bx
-;push cx
-;call cube_right
-;pop cx
 mov ax,offset backgroundf             ;offset backgroundf
 push ax
 push bx
@@ -641,11 +636,6 @@ call print_backgroungf
 call delay
 push bx
 call taking_reddimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp dl,'v'
-;je victory7
 inc bx
 push dx
 call bluepool
@@ -660,10 +650,6 @@ push dx
 push bx
 call print_fireboy
 jmp outtr1
-;victory7:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtr1
 exittb:
 mov cx,'e'
 mov [bp+6],cx
@@ -1143,11 +1129,6 @@ call print_backgroundw
 call delay
 push di
 call taking_bluedimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp dl,'v'
-;je victory2
 add di,320
 push dx
 call redpool
@@ -2344,7 +2325,7 @@ left:
     je updatel
     add bx,320
     loop next
-    jmp down
+    jmp outtb
 up:
     sub bx,320
     mov cx,15
@@ -2354,7 +2335,7 @@ up:
     je updateu
     inc bx
     loop nex1
-    jmp down
+    jmp outtb
 right:
     add bx,15
     mov cx,20
@@ -2365,20 +2346,9 @@ right:
     je updater
     add bx,320
     loop next2
-    jmp down
-updated:
-mov al,'d'
-jmp outtb
-updater:
-mov al,'r'
-jmp down
-updateu:
-mov al,'u'
-jmp down
-updatel:
-mov al,'l'
+    jmp outtb
 down:
-    add bx,(320*20)+5
+    add bx,(320*20)+2
     mov cx,10
     next5:
     mov ah,[es:bx]
@@ -2386,6 +2356,18 @@ down:
     je updated
     inc bx
     loop next5
+    jmp outtb
+updated:
+mov al,'d'
+jmp outtb
+updater:
+mov al,'r'
+jmp outtb
+updateu:
+mov al,'u'
+jmp outtb
+updatel:
+mov al,'l'
 outtb:
 mov [bp+6],ax
 ;-----------black_box----------------
