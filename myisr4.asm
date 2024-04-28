@@ -15,6 +15,7 @@ ScrLine db 320 dup (0)
 ErrorMsg db 'Error', 13, 10 ,'$'
 map db 'map.bmp',0
 victoryp db 'victory.bmp',0
+gameover db 'gameover.bmp',0
 gforce1 db 0
 bluedimond  db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
             db 253,253,253,253,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253,253,253,253
@@ -378,7 +379,21 @@ int 21h
 ret
 endp OpenFile
 
-
+proc OpenFilegameover
+; Open file
+mov ah, 3Dh
+xor al, al
+mov dx, offset gameover
+int 21h
+jc openerror3
+mov [filehandle], ax
+ret
+openerror3 :
+mov dx, offset ErrorMsg
+mov ah, 9h
+int 21h
+ret
+endp OpenFilegameover
 
 proc ReadHeader
 ; Read BMP file header, 54 bytes
@@ -1691,6 +1706,8 @@ proc my_program
 						              ; low byte = character code; high byte = attribute (background+color)
 	mov es, ax
 	
+    push bp
+    mov bp,sp
 
 	mov bx, (320*178)+10             ; address on the middle of display, red star
 	push offset fireboy
@@ -1767,26 +1784,24 @@ watergirlmove:
     call watergirl_left
     pop di
     pop dx
-    cmp dx,'e'
-    je toret
 fireboymove:
-    push ax
+    push dx
     push bx
     ;mov si,7
     call fireboy_right
     pop bx
-    pop ax
-    push ax
+    pop dx
+    push dx
     push bx
 	call fireboy_up
     pop bx
-    pop ax
-    push ax
+    pop dx
+    push dx
     push bx
     call fireboy_left
     pop bx
-    pop ax
-    cmp ax,'e'
+    pop dx
+    cmp dx,'e'
     je toret
 cont:	
 	inc si
@@ -1800,13 +1815,15 @@ cont:
     pop di
     cmp dx,'e'
     je toret
-    push ax
+    push dx
     call enterdoors
-    pop ax
-    cmp ax,'v'
+    pop dx
+    mov dx,'v'
+    cmp dx,'v'
     je victorypic 
     jmp main_loop
 victorypic:
+    mov [bp+12],dx
     call OpenFilevictory
     call ReadHeader
     call ReadPalette
@@ -1814,7 +1831,11 @@ victorypic:
     call CopyPal
     call CopyBitmap
     call closefile
+    jmp v
 toret:
+    mov [bp+12],dx
+    v:
+    pop bp
     pop ax
 	mov es, ax
     ret
@@ -2443,7 +2464,23 @@ continue:
     push offset cubebackground1
     push (320*50)+190
     call cubebackground
+    push ax
 	call change_handler              ; put my own keyboard interrupt
+    pop ax
+    cmp ax,'v'
+    je exit
+    wait2:
+    call OpenFilegameover
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
+    mov ah,1
+    int 21h
+    cmp al,0dh
+    jne wait2
 exit:
 	mov ah, 0
 	mov al, 2
