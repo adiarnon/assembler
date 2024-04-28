@@ -567,14 +567,8 @@ mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
 call print_backgroundw
-call delay
 push di
 call taking_bluedimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp dl,'v'
-;je victory
 inc di
 push dx
 call redpool
@@ -589,11 +583,6 @@ push dx
 push di
 call print_watergirl
 jmp outtr
-;mov [bp+8],di
-;victory:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtr
 outw1:
 mov cx,'e'
 mov [bp+6],cx
@@ -633,7 +622,6 @@ mov ax,offset backgroundf             ;offset backgroundf
 push ax
 push bx
 call print_backgroungf	
-call delay
 push bx
 call taking_reddimonds
 inc bx
@@ -666,101 +654,6 @@ ret
 endp fireboy_right
 ;---------------------
 
-proc cube_right
-push bp
-mov bp,sp
-push si
-push dx
-push bx
-push ax
-;----------------------black box-------------------------
-
-mov bx,[bp+6]            ;bx/di
-mov si,[bp+4]            ;cube's location on the screen
-mov ax,si
-add ax,44
-mov bx,16234
-cmp ax,bx
-jne notmoving 
-
-push offset cubebackground1
-push si
-call print_backgroundc
-mov dl,'r'
-push dx
-call cube_borders
-pop dx
-cmp dl,1
-je notmoving
-inc si
-push offset cube
-push si
-call cubebackground
-;push offset cube
-;push si
-;call print_cube
-
-notmoving:
-mov [bp+6],si
-;----------------------black box-------------------------
-pop ax
-pop bx
-pop dx
-pop si
-pop bp
-ret 2
-endp cube_right
-
-
-proc cube_borders
-push bp
-mov bp,sp 
-push ax
-push si
-push cx
-;----------------------black box-------------------------
-mov dx,[bp+4]
-cmp dl,'r'
-je right1
-cmp dl,'l'
-jne outtb1 
-left1:
-    dec si
-    mov cx,21
-    next3:
-    mov ah,[es:si]
-    cmp ah,91
-    je update1
-    add si,320
-    loop next3
-    jmp outtb1
-
-right1:
-    add si,21
-    mov cx,21
-    inc si
-    next4:
-    mov ah,[es:si]
-    cmp ah,91
-    je update2
-    add si,320
-    loop next4
-    jmp outtb1
-
-update1:
-mov dl,2
-jmp outtb1
-update2:
-mov dl,1
-outtb1:
-mov [bp+4],dx
-;----------------------black box-------------------------
-pop cx
-pop si
-pop ax
-pop bp
-ret 
-endp cube_borders
 
 proc bluepool
 push bp
@@ -869,7 +762,6 @@ mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
 call print_backgroundw
-call delay
 push di
 call taking_bluedimonds
 ;push dx
@@ -934,14 +826,8 @@ mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
 call print_backgroungf	
-call delay
 push bx
 call taking_reddimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp di,'v'
-;je victory5
 sub bx,320
 push dx
 call bluepool
@@ -956,11 +842,6 @@ push dx
 push bx
 call print_fireboy
 jmp outtr2
-;mov [bp+8],bx
-;victory5:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtr2
 exittb1:
 mov cx,'e'
 mov [bp+6],cx
@@ -999,14 +880,8 @@ mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
 call print_backgroundw
-call delay
 push di
 call taking_bluedimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp dl,'v'
-;je victory4
 dec di
 push dx
 call redpool
@@ -1021,10 +896,6 @@ push dx
 push di
 call print_watergirl
 jmp outtl
-;victory4:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtl
 outw3:
 mov cx,'e'
 mov [bp+6],cx
@@ -1064,14 +935,8 @@ mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
 call print_backgroungf	
-call delay
 push bx
 call taking_reddimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp di,'v'
-;je victory3
 dec bx
 push dx
 call bluepool
@@ -1085,11 +950,6 @@ push dx
 push bx
 call print_fireboy
 jmp outtl2
-;mov [bp+8],bx
-;victory3:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtl2
 exittb12:
 mov cx,'e'
 mov [bp+6],cx
@@ -1126,7 +986,6 @@ mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
 call print_backgroundw
-call delay
 push di
 call taking_bluedimonds
 add di,320
@@ -1188,7 +1047,6 @@ mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
 call print_backgroungf	
-call delay
 push bx
 call taking_reddimonds
 ;push dx
@@ -1796,6 +1654,7 @@ fireboymove:
     call fireboy_left
     pop bx
     pop dx
+    call delay
     cmp dx,'e'
     je toret
 cont:	
@@ -1957,7 +1816,8 @@ proc print_backgroungf
         mov cx, 15
         draw_pixel3:
             mov ah, [si]
-            mov [es:bx], ah  
+
+            mov [es:bx], ah 
             inc bx
             inc si
             loop draw_pixel3
@@ -1985,7 +1845,7 @@ push si
 push cx
 push ax
 ;-----------black_box----------------
-    mov di, [bp+4]      ;the backgroundw adress
+    mov di, [bp+4]      ;the backgroundw adress on screen
     mov si, [bp+6]
     mov cx, 20      ;the image width
     next_color6:
