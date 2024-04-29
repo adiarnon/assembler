@@ -17,6 +17,7 @@ map db 'map.bmp',0
 victoryp db 'victory.bmp',0
 gameover db 'gameover.bmp',0
 gforce1 db 0
+menu db 'menu3.bmp',0
 reddoor2  dw (320*22)+270, (320*22)+271,(320*22)+272, (320*22)+273, (320*22)+274,(320*22)+275
           dw (320*23)+270, (320*23)+271,(320*23)+272, (320*23)+273, (320*23)+274,(320*23)+275 
           dw (320*24)+270, (320*24)+271,(320*24)+272, (320*24)+273, (320*24)+274,(320*24)+275
@@ -378,6 +379,22 @@ bluedoor    db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0
  ; numbers value 1 - key pressed
 ;==========================================================
 CODESEG
+
+proc OpenFilemenu
+; Open file
+mov ah, 3Dh
+xor al, al
+mov dx, offset menu
+int 21h
+jc openerror4
+mov [filehandle], ax
+ret
+openerror4 :
+mov dx, offset ErrorMsg
+mov ah, 9h
+int 21h
+ret
+endp OpenFilemenu
 
 proc OpenFile
 ; Open file
@@ -1617,7 +1634,7 @@ main_loop:                            ; none end loop: scan array kbdbuf
 	mov cx,8
 check_buttons:
     cmp [byte ptr cs:esc_key], 0       ; if clicked ?
-	jne toret                          ; yes ---> end the program
+	jne e                       ; yes ---> end the program
     mov al, [cs:kbdbuf + si]       ;scan array of clickes
 	cmp al,0
 	je cont
@@ -1656,7 +1673,7 @@ fireboymove:
     pop dx
     call delay
     cmp dx,'e'
-    je toret
+    je e1
 cont:	
 	inc si
 	loop check_buttons
@@ -1668,7 +1685,7 @@ cont:
     pop bx
     pop di
     cmp dx,'e'
-    je toret
+    je e1
     push dx
     call enterdoors
     pop dx
@@ -1686,7 +1703,12 @@ victorypic:
     call closefile
     jmp v
 toret:
+e:
+    mov dx,0
     mov [bp+12],dx
+    e1:
+    mov [bp+12],dx
+    jmp v
     v:
     pop bp
     pop ax
@@ -2241,48 +2263,8 @@ pop bp
 ret 2
 endp borders
 
-
-;=====================================================================
-;   Start code
-;=====================================================================
-;
-start:
-  	mov ax, @data                    ; start address of segment data
-	mov ds, ax
-	mov ax, 0a000h 
-	mov es,ax
-	mov ax, 13h
-	int 10h
-	; Graphic mode
-	;mov ax, 13h
-	;int 10h
-	; Process BMP file
-    wait1:
-    call OpenFile
-    call ReadHeader
-    call ReadPalette
-    push offset palette
-    call CopyPal
-    call CopyBitmap
-    ;Wait for key press
-    mov ah,1
-    int 21h
-    cmp al,0dh
-    jne wait1
-    call closefile
-    
-continue:
-    ;push [byte ptr map]
-    call OpenFilemap
-    call ReadHeader
-    call ReadPalette
-    push offset palette
-    call CopyPal
-    call CopyBitmap
-    call closefile
-	;push offset fireboy
-	;call blackscreen
-    push offset backgroundf
+proc savebackgounds
+push offset backgroundf
 	push (320*178)+10
 	call backgroundf1
 	push offset backgroundw
@@ -2312,12 +2294,67 @@ continue:
     push offset backgrounddw4
     push (320*25)+180  
     call backgroundd
+ret
+endp savebackgounds
+
+
+;=====================================================================
+;   Start code
+;=====================================================================
+;
+start:
+  	mov ax, @data                    ; start address of segment data
+	mov ds, ax
+	mov ax, 0a000h            
+	mov es,ax                        
+	mov ax, 13h
+	int 10h
+    menu1:
+    call openfilemenu
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    ;Wait for key press
+    mov ah,1
+    int 21h
+    cmp al,0dh
+    jne menu1
+    call closefile
+    wait1:
+    call OpenFile
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    ;Wait for key press
+    mov ah,1
+    int 21h
+    cmp al,0dh
+    jne wait1
+    call closefile
+    
+continue:
+    ;push [byte ptr map]
+    call OpenFilemap
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
+	;push offset fireboy
+	;call blackscreen
+    call savebackgounds
     push ax
 	call change_handler              ; put my own keyboard interrupt
     pop ax
     cmp ax,'v'
+    je menu1
+    cmp ax,0
     je exit
-    wait2:
     call OpenFilegameover
     call ReadHeader
     call ReadPalette
@@ -2325,10 +2362,7 @@ continue:
     call CopyPal
     call CopyBitmap
     call closefile
-    mov ah,1
-    int 21h
-    cmp al,0dh
-    jne wait2
+    jmp menu1
 exit:
 	mov ah, 0
 	mov al, 2
