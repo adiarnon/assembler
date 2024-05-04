@@ -17,7 +17,10 @@ map db 'map.bmp',0
 victoryp db 'victory.bmp',0
 gameover db 'gameover.bmp',0
 gforce1 db 0
+level1 db 0
 menu db 'menu3.bmp',0
+leveldirection db 'd'
+levelplace dw (320*83)+281
 reddoor2  dw (320*22)+270, (320*22)+271,(320*22)+272, (320*22)+273, (320*22)+274,(320*22)+275
           dw (320*23)+270, (320*23)+271,(320*23)+272, (320*23)+273, (320*23)+274,(320*23)+275 
           dw (320*24)+270, (320*24)+271,(320*24)+272, (320*24)+273, (320*24)+274,(320*24)+275
@@ -33,6 +36,46 @@ bluedoor1 dw (320*22)+300, (320*22)+301,(320*22)+302, (320*22)+303, (320*22)+304
           dw (320*26)+300, (320*26)+301,(320*26)+302, (320*26)+303, (320*26)+304,(320*26)+305
           dw (320*27)+300, (320*27)+301,(320*27)+302, (320*27)+303, (320*27)+304,(320*27)+305
           dw (320*28)+300, (320*28)+301,(320*28)+302, (320*28)+303, (320*28)+304,(320*28)+305
+
+level   db 246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246
+db 246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246
+db 246,246,246,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,246,246,246
+db 246,246,246,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,246,246,246
+db 246,246,246,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,246,246,246
+db 246,246,246,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,204,246,246,246
+db 246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246
+db 246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246,246
+
+backgroundl1 db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
+db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0 
+
 
 bluedimond  db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
             db 253,253,253,253,0  ,0  ,0  ,0  ,0  ,0  ,0  ,253,253,253,253
@@ -1177,6 +1220,42 @@ pop bp
 ret 4
 endp backgroundw1
 
+proc backgroundl
+push bp
+mov bp,sp
+push bx
+push cx
+push ax
+push si
+;---------------black box-------------
+    mov bx, [bp+4]      ;the level adress on the screen 
+    mov si, [bp+6]      ;offset backgroundl
+    mov cx, 29     ;the image width
+    next_color14:
+
+        push cx
+        push bx
+        mov cx, 35
+        draw_pixel14:
+            mov ah ,[es:bx]
+            mov [si], ah
+            inc bx
+            inc si
+            loop draw_pixel14
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color14
+
+;---------------black box-------------
+pop si
+pop ax
+pop cx
+pop bx
+pop bp 
+ret 4
+endp backgroundl
+
 proc cubebackground
 push bp
 mov bp,sp
@@ -1507,7 +1586,7 @@ push cx
 
     mov cl,[gforce1]
     inc cl
-    cmp cl,10
+    cmp cl,5
     mov [gforce1],cl
     jne toout
     mov cx,0
@@ -1540,6 +1619,201 @@ pop ax
 pop bp
 ret 
 endp gforce
+
+proc print_backgroungl
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov bx, 320*83+281     ;the backgroungl adress
+    mov si, [bp+4]
+    mov cx, 29    ;the image width
+    next_color16:
+
+        push cx
+        push bx
+        mov cx, 35
+        draw_pixel16:
+            mov ah, [si]
+            mov [es:bx], ah 
+            inc bx
+            inc si
+            loop draw_pixel16
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color16
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+    ret 2
+ret 
+endp print_backgroungl
+
+proc levelup
+push bp
+mov bp,sp
+push si
+push bx
+push ax
+push dx
+push cx
+push di
+;----------------------black box-------------------------
+mov di,[bp+8]             ;bx,the location of fireboy on the screen 
+mov ax,[bp+6]             ;level location
+mov bx,[bp+4]             ;si, the location of the level on the scrren, leveldirection
+mov dx,di
+cmp al,'u'
+jne outtu2
+cmp bx,(320*83)+281
+je changtod
+mov si,offset backgroundl1            ;offset backgroundf
+push si
+call print_backgroungl
+add dx,320*21
+mov cx,35
+push bx
+checkl:
+mov ah,[es:di]
+cmp ah,246
+je fireup
+inc di
+loop checkl
+jmp continuelu
+fireup:
+push dx
+push di
+mov si,6
+call fireboy_up
+pop di
+pop dx
+push dx
+push di
+call fireboy_up
+pop di
+pop dx
+continuelu:
+pop bx
+sub bx,320
+mov dx,offset level             ;offset fireboy
+push dx
+push bx
+call print_level
+jmp outtu2
+changtod:
+mov al,'d'
+outtu2:
+mov [bp+6],bx
+mov [bp+8],ax
+;----------------------black box-------------------------
+pop di
+pop cx
+pop dx
+pop ax
+pop bx
+pop si
+pop bp
+ret 2
+endp levelup
+
+proc leveldown
+push bp
+mov bp,sp
+push si
+push bx
+push ax
+push dx
+push cx
+;----------------------black box-------------------------
+mov ax,[bp+6]             ;levellocation 
+mov bx,[bp+4]             ;levelplace
+cmp al,'d'
+jne outtd2
+cmp bx,(320*104)+281
+je updatetou
+mov dx,offset level             ;offset level
+mov si,offset backgroundl1            ;offset backgroundf
+push si
+call print_backgroungl	
+add bx,320
+push dx
+push bx
+call print_level
+jmp outtd2
+updatetou:
+mov al,'u'
+outtd2:
+mov [bp+4],bx
+mov [bp+6],ax
+;----------------------black box-------------------------
+pop cx
+pop dx
+pop ax
+pop bx
+pop si
+pop bp
+ret 
+endp leveldown
+
+proc movelevel
+push bp
+mov bp,sp
+push si
+push ax
+push bx
+
+    mov cl,[level1]
+    inc cl
+    cmp cl,5
+    mov [level1],cl
+    jne update
+    mov cx,0
+    mov [level1],cl
+
+mov si,[bp+4]            ;levelplace
+mov ax,[bp+6]            ;leveldirection
+push bx
+push ax
+push si
+call levelup
+pop si
+pop ax
+push ax
+push si
+call leveldown
+pop si
+pop ax
+update:
+mov [bp+6],ax
+mov [bp+4],si
+
+pop bx
+pop ax
+pop si
+pop bp
+ret
+endp movelevel
+
+proc victorypic1
+    call OpenFilevictory
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
+ret 
+endp victorypic1
 ;======================================================================	
 proc change_handler
     xor     ax, ax
@@ -1583,12 +1857,10 @@ proc my_program
 	push offset fireboy
 	push bx
 	call print_fireboy 
-    call delay
 	mov di, (320*150)+10            ; address on the middle of display, green star
 	push offset watergirl
 	push di
 	call print_watergirl
-    call delay
     mov si, (320*178)+163          ;first red dimond's address 1
     push offset reddimond
     push si
@@ -1629,12 +1901,16 @@ proc my_program
     push offset reddoor
     push si
     call print_doors
+    mov ax,(320*83)+281
+    push offset level
+    push ax
+    call print_level
 main_loop:                            ; none end loop: scan array kbdbuf
     mov si,0
 	mov cx,8
 check_buttons:
     cmp [byte ptr cs:esc_key], 0       ; if clicked ?
-	jne e                       ; yes ---> end the program
+	jne toret                      ; yes ---> end the program
     mov al, [cs:kbdbuf + si]       ;scan array of clickes
 	cmp al,0
 	je cont
@@ -1657,7 +1933,6 @@ watergirlmove:
 fireboymove:
     push dx
     push bx
-    ;mov si,7
     call fireboy_right
     pop bx
     pop dx
@@ -1671,7 +1946,6 @@ fireboymove:
     call fireboy_left
     pop bx
     pop dx
-    call delay
     cmp dx,'e'
     je e1
 cont:	
@@ -1691,19 +1965,22 @@ cont:
     pop dx
     cmp dx,'v'
     je victorypic 
+    mov si,[levelplace]
+    mov al,[leveldirection]
+    push ax
+    push si
+    call movelevel
+    pop ax
+    pop si
+    mov [levelplace],si
+    mov [leveldirection],al
+    call delay
     jmp main_loop
 victorypic:
     mov [bp+12],dx
-    call OpenFilevictory
-    call ReadHeader
-    call ReadPalette
-    push offset palette
-    call CopyPal
-    call CopyBitmap
-    call closefile
+    call victorypic1
     jmp v
 toret:
-e:
     mov dx,0
     mov [bp+12],dx
     e1:
@@ -1972,6 +2249,42 @@ proc print_fireboy
     ret 4
 endp print_fireboy
 
+proc print_level
+    push bp
+    mov bp, sp
+    push ax
+    push di
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the level adress on the screen
+    mov si, [bp+6]      ;offset level
+    mov cx, 8        ;the image width
+    next_color15:
+        push cx
+        push di
+        mov cx, 35    ;image length 
+        draw_pixel15:
+            mov ah, [si]
+            mov [es:di], ah  
+            inc di
+            inc si
+            loop draw_pixel15
+        pop di
+        pop cx
+        add di, 320
+        loop next_color15
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop di
+    pop ax
+    pop bp
+    ret 4
+endp print_level
+
 proc print_watergirl
     push bp
     mov bp, sp
@@ -2205,6 +2518,8 @@ left:
     mov ah,[es:bx]
     cmp ah,91
     je updatel
+    cmp ah,246
+    je updatel
     add bx,320
     loop next
     jmp outtb
@@ -2214,6 +2529,9 @@ up:
     nex1:
     mov ah,[es:bx]
     cmp ah,91
+    je updateu
+    mov ah,[es:bx]
+    cmp ah,246
     je updateu
     inc bx
     loop nex1
@@ -2226,6 +2544,8 @@ right:
     mov ah,[es:bx]
     cmp ah,91
     je updater
+    cmp ah,246
+    je updater
     add bx,320
     loop next2
     jmp outtb
@@ -2235,6 +2555,8 @@ down:
     next5:
     mov ah,[es:bx]
     cmp ah,91
+    je updated
+    cmp ah,246
     je updated
     inc bx
     loop next5
@@ -2264,7 +2586,7 @@ ret 2
 endp borders
 
 proc savebackgounds
-push offset backgroundf
+    push offset backgroundf
 	push (320*178)+10
 	call backgroundf1
 	push offset backgroundw
@@ -2294,6 +2616,9 @@ push offset backgroundf
     push offset backgrounddw4
     push (320*25)+180  
     call backgroundd
+    push offset backgroundl1
+    push (320*83)+281
+    call backgroundl
 ret
 endp savebackgounds
 
@@ -2319,6 +2644,8 @@ start:
     ;Wait for key press
     mov ah,1
     int 21h
+    cmp al,1bh
+    je exit
     cmp al,0dh
     jne menu1
     call closefile
@@ -2335,7 +2662,6 @@ start:
     cmp al,0dh
     jne wait1
     call closefile
-    
 continue:
     ;push [byte ptr map]
     call OpenFilemap
