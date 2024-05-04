@@ -824,11 +824,6 @@ push di
 call print_backgroundw
 push di
 call taking_bluedimonds
-;push dx
-;call enterdoor
-;pop dx
-;cmp di,'v'
-;je victory6
 sub di,320
 push dx
 call redpool
@@ -843,11 +838,6 @@ push dx
 push di
 call print_watergirl
 jmp outtu
-;mov [bp+8],di
-;victory6:
-;mov cx,'v'
-;mov [bp+6],cx
-;jmp outtu
 outw2:
 mov cx,'e'
 mov [bp+6],cx
@@ -1814,6 +1804,66 @@ proc victorypic1
     call closefile
 ret 
 endp victorypic1
+
+proc watergirlmove1
+    push bp
+    mov bp,sp
+    push dx
+    push di
+;------------
+    push dx
+    push di
+	call watergirl_right
+    pop di
+    pop dx
+    push dx
+    push di
+    call watergirl_up
+    pop di
+    pop dx
+    push dx
+    push di
+    call watergirl_left
+    pop di
+    pop dx
+    mov [bp+4],di
+    mov [bp+6],dx
+    
+    pop di
+    pop dx
+    pop bp
+ret
+endp watergirlmove1
+
+proc fireboymove1
+    push bp
+    mov bp,sp
+    push dx
+    push di
+
+    push dx
+    push bx
+    call fireboy_right
+    pop bx
+    pop dx
+    push dx
+    push bx
+	call fireboy_up
+    pop bx
+    pop dx
+    push dx
+    push bx
+    call fireboy_left
+    pop bx
+    pop dx
+    mov [bp+6],dx
+    mov [bp+4],bx
+
+    pop di
+    pop dx
+    pop bp
+ret 
+endp fireboymove1
 ;======================================================================	
 proc change_handler
     xor     ax, ax
@@ -1910,44 +1960,39 @@ main_loop:                            ; none end loop: scan array kbdbuf
 	mov cx,8
 check_buttons:
     cmp [byte ptr cs:esc_key], 0       ; if clicked ?
-	jne toret                      ; yes ---> end the program
+	jne toretttt                      ; yes ---> end the program
     mov al, [cs:kbdbuf + si]       ;scan array of clickes
 	cmp al,0
 	je cont
 watergirlmove:	
+    push di
+    push 10
+    call borders
+    pop ax
+    cmp al,'d'
+    jne fireboymove
     push dx
     push di
-	call watergirl_right
-    pop di
-    pop dx
-    push dx
-    push di
-    call watergirl_up
-    pop di
-    pop dx
-    push dx
-    push di
-    call watergirl_left
+    call watergirlmove1
     pop di
     pop dx
 fireboymove:
+    push di
+    push 10
+    call borders
+    pop ax
+    cmp al,'d'
+    jne cont 
     push dx
     push bx
-    call fireboy_right
-    pop bx
-    pop dx
-    push dx
-    push bx
-	call fireboy_up
-    pop bx
-    pop dx
-    push dx
-    push bx
-    call fireboy_left
+    call fireboymove1
     pop bx
     pop dx
     cmp dx,'e'
     je e1
+    jmp cont
+toretttt:
+    jmp toret
 cont:	
 	inc si
 	loop check_buttons
@@ -1970,8 +2015,8 @@ cont:
     push ax
     push si
     call movelevel
-    pop ax
     pop si
+    pop ax
     mov [levelplace],si
     mov [leveldirection],al
     call delay
