@@ -17,6 +17,8 @@ map db 'map.bmp',0
 victoryp db 'victory.bmp',0
 gameover db 'gameover.bmp',0
 gforce1 db 0
+gforceF db 7,'r'
+gforceY db 7,'r'
 level1 db 0
 menu db 'menu3.bmp',0
 leveldirection db 'd'
@@ -617,6 +619,11 @@ push cx
 mov di,[bp+4]            ;di
 cmp si,3
 jne outtr
+mov al,[gforceY]
+cmp al,0
+jne nothingchange2
+mov [gforceY+1],'r'
+nothingchange2:
 push di
 push si
 call borders
@@ -672,6 +679,11 @@ push cx
 mov bx,[bp+4]             ;bx
 cmp si,7
 jne outtr1
+mov al,[gforceF]
+cmp al,0
+jne nothingchange3
+mov [gforcef+1],'r'
+nothingchange3:
 push bx
 push si
 call borders
@@ -812,12 +824,17 @@ push cx
 mov di,[bp+4]            ;di
 cmp si,2
 jne outtu
+mov al,[gforceF]
+cmp al,0
+jne nothingchange
+mov [gforcef],20
+nothingchange:
 push di
 push si
 call borders
 pop ax
 cmp al,'u'
-je outtu
+je updategforew
 mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
@@ -841,6 +858,9 @@ jmp outtu
 outw2:
 mov cx,'e'
 mov [bp+6],cx
+jmp outtu
+updategforew:
+mov [gforcey],0
 outtu:
 mov [bp+4],di
 ;----------------------black box-------------------------
@@ -866,12 +886,17 @@ push cx
 mov bx,[bp+4]             ;bx
 cmp si,6
 jne outtr2
+mov al,[gforcey]
+cmp al,0
+jne nothingchange1
+mov [gforcey],20
+nothingchange1:
 push bx
 push si
 call borders
 pop ax
 cmp al,'u'
-je outtr2
+je updategforcef
 mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
@@ -895,6 +920,9 @@ jmp outtr2
 exittb1:
 mov cx,'e'
 mov [bp+6],cx
+jmp outtr2
+updategforcef:
+mov [gforcef],0
 outtr2:
 mov [bp+4],bx
 ;----------------------black box-------------------------
@@ -920,6 +948,11 @@ push cx
 mov di,[bp+4]            ;di
 cmp si,1
 jne outtl
+mov al,[gforcey]
+cmp al,0
+jne nothingchange4
+mov [gforcey+1],'l'
+nothingchange4:
 push di
 push si
 call borders
@@ -974,6 +1007,11 @@ push cx
 mov bx,[bp+4]             ;bx
 cmp si,5
 jne outtl2
+mov al,[gforcef]
+cmp al,0
+jne nothingchange5
+mov [gforcef+1],'l'
+nothingchange5:
 push bx
 push si
 call borders
@@ -1245,6 +1283,134 @@ pop bx
 pop bp 
 ret 4
 endp backgroundl
+
+proc gforcefire
+push bx
+push ax
+push si
+push cx
+;---------------black box-------------
+mov cl,[gforceY]            ;speed
+mov al,[gforceY+1]          ;direction
+cmp cl,10
+jl movedown2
+fireup:
+    push dx
+    push bx
+    call fireboy_up
+    pop bx
+    pop dx
+    cmp al,'l'
+    jne rightuf
+    push dx
+    push bx
+    call fireboy_left
+    pop bx
+    pop dx
+    rightuf:
+    push dx
+    push bx
+    call fireboy_right
+    pop bx
+    pop dx
+    dec cl
+    cmp cl,10
+    je movedown2
+    jmp fireup
+
+movedown2:
+    push dx
+    push bx
+    call fireboy_down
+    pop bx
+    pop dx
+    cmp al,'l'
+    jne rightud
+    push dx
+    push bx
+    call fireboy_left
+    pop bx
+    pop dx
+    rightud:
+    push dx
+    push bx
+    call fireboy_right
+    pop bx
+    pop dx
+    loop movedown1
+
+;---------------black box-------------
+pop cx
+pop si
+pop ax
+pop bx
+ret
+endp gforcefire
+
+proc gforcewater
+push bx
+push ax
+push dx
+push cx
+push di
+;---------------black box-------------
+mov cl,[gforceY]            ;speed
+mov al,[gforceY+1]          ;direction
+cmp cl,10
+jl movedown1
+waterup:
+    push dx
+    push di
+    call watergirl_up
+    pop di
+    pop dx
+    cmp al,'l'
+    jne rightuw
+    push dx
+    push di
+    call watergirl_left
+    pop di
+    pop dx
+    rightuw:
+    push dx
+    push di
+    call watergirl_right
+    pop di
+    pop dx
+    dec cl
+    cmp cl,10
+    je movedown1
+    jmp waterup
+
+movedown1:
+    push dx
+    push di
+    call watergirl_down
+    pop di
+    pop dx
+    cmp al,'l'
+    jne rightwd
+    push dx
+    push di
+    call watergirl_left
+    pop di
+    pop dx
+    rightwd:
+    push dx
+    push di
+    call watergirl_right
+    pop di
+    pop dx
+    loop movedown1
+;---------------black box-------------
+outf:
+pop di
+pop cx
+pop dx
+pop ax
+pop bx
+ret
+endp gforcewater
 
 proc cubebackground
 push bp
@@ -1676,11 +1842,11 @@ push bx
 checkl:
 mov ah,[es:di]
 cmp ah,246
-je fireup
+je fireup1
 inc di
 loop checkl
 jmp continuelu
-fireup:
+fireup1:
 push dx
 push di
 mov si,6
