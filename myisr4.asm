@@ -17,8 +17,8 @@ map db 'map.bmp',0
 victoryp db 'victory.bmp',0
 gameover db 'gameover.bmp',0
 gforce1 db 0
-gforceF db 7,'r'
-gforceY db 7,'r'
+gforceF db 0,'r'
+gforceY db 0,'r'
 level1 db 0
 menu db 'menu3.bmp',0
 leveldirection db 'd'
@@ -824,17 +824,17 @@ push cx
 mov di,[bp+4]            ;di
 cmp si,2
 jne outtu
-mov al,[gforceF]
+mov al,[gforcey]
 cmp al,0
 jne nothingchange
-mov [gforcef],20
+mov [gforcey],60
 nothingchange:
 push di
 push si
 call borders
 pop ax
 cmp al,'u'
-je updategforew
+je outw2
 mov ax,offset backgroundw            ;offset backgroundw
 push ax
 push di
@@ -858,9 +858,6 @@ jmp outtu
 outw2:
 mov cx,'e'
 mov [bp+6],cx
-jmp outtu
-updategforew:
-mov [gforcey],0
 outtu:
 mov [bp+4],di
 ;----------------------black box-------------------------
@@ -886,17 +883,17 @@ push cx
 mov bx,[bp+4]             ;bx
 cmp si,6
 jne outtr2
-mov al,[gforcey]
+mov al,[gforcef]
 cmp al,0
 jne nothingchange1
-mov [gforcey],20
+mov [gforcef],40
 nothingchange1:
 push bx
 push si
 call borders
 pop ax
 cmp al,'u'
-je updategforcef
+je outtr2
 mov ax,offset backgroundf            ;offset backgroundf
 push ax
 push bx
@@ -920,9 +917,6 @@ jmp outtr2
 exittb1:
 mov cx,'e'
 mov [bp+6],cx
-jmp outtr2
-updategforcef:
-mov [gforcef],0
 outtr2:
 mov [bp+4],bx
 ;----------------------black box-------------------------
@@ -1290,10 +1284,12 @@ push ax
 push si
 push cx
 ;---------------black box-------------
-mov cl,[gforceY]            ;speed
-mov al,[gforceY+1]          ;direction
+mov cl,[gforcef]            ;speed
+mov al,[gforcef+1]          ;direction
+cmp cl,0
+je outf
 cmp cl,10
-jl movedown2
+jle movedown2
 fireup:
     push dx
     push bx
@@ -1307,17 +1303,14 @@ fireup:
     call fireboy_left
     pop bx
     pop dx
+    jmp updatecl
     rightuf:
     push dx
     push bx
     call fireboy_right
     pop bx
     pop dx
-    dec cl
-    cmp cl,10
-    je movedown2
-    jmp fireup
-
+    jmp updatecl
 movedown2:
     push dx
     push bx
@@ -1331,15 +1324,18 @@ movedown2:
     call fireboy_left
     pop bx
     pop dx
+    jmp updatecl
     rightud:
     push dx
     push bx
     call fireboy_right
     pop bx
     pop dx
-    loop movedown1
-
+updatecl:
+    dec cl
+    mov [gforcef],cl
 ;---------------black box-------------
+outf:
 pop cx
 pop si
 pop ax
@@ -1348,6 +1344,8 @@ ret
 endp gforcefire
 
 proc gforcewater
+push bp
+mov bp,sp
 push bx
 push ax
 push dx
@@ -1356,9 +1354,12 @@ push di
 ;---------------black box-------------
 mov cl,[gforceY]            ;speed
 mov al,[gforceY+1]          ;direction
-cmp cl,10
+cmp cl,0
+je outf1
+cmp cl,30
 jl movedown1
 waterup:
+    mov si,2
     push dx
     push di
     call watergirl_up
@@ -1366,22 +1367,21 @@ waterup:
     pop dx
     cmp al,'l'
     jne rightuw
+    mov si,1
     push dx
     push di
     call watergirl_left
     pop di
     pop dx
+    jmp updatecl1
     rightuw:
+    mov si,3
     push dx
     push di
     call watergirl_right
     pop di
     pop dx
-    dec cl
-    cmp cl,10
-    je movedown1
-    jmp waterup
-
+    jmp updatecl1
 movedown1:
     push dx
     push di
@@ -1390,25 +1390,34 @@ movedown1:
     pop dx
     cmp al,'l'
     jne rightwd
+    mov si,1
     push dx
     push di
     call watergirl_left
     pop di
     pop dx
+    jmp updatecl1
     rightwd:
+    cmp al,'r'
+    jne updatecl1
+    mov si,3
     push dx
     push di
     call watergirl_right
     pop di
     pop dx
-    loop movedown1
+updatecl1:
+    dec cl
+    mov [gforcey],cl
+    mov [bp+4],di
 ;---------------black box-------------
-outf:
+outf1:
 pop di
 pop cx
 pop dx
 pop ax
 pop bx
+pop bp
 ret
 endp gforcewater
 
@@ -1428,7 +1437,7 @@ push si
         push cx
         push di
         mov cx, 21
-        draw_pixel11:
+        draw_pixel11: 
             
             mov ah ,[es:di]
             mov [si], ah
@@ -1739,11 +1748,10 @@ push bx
 push dx
 push di
 push cx
-
     mov cl,[gforce1]
     inc cl
-    cmp cl,5
     mov [gforce1],cl
+    cmp cl,5
     jne toout
     mov cx,0
     mov [gforce1],cl
@@ -1982,11 +1990,19 @@ proc watergirlmove1
 	call watergirl_right
     pop di
     pop dx
+    
+    push di
+    push 10
+    call borders
+    pop ax
+    cmp al,'d'
+    jne notup
     push dx
     push di
     call watergirl_up
     pop di
     pop dx
+notup:
     push dx
     push di
     call watergirl_left
@@ -2130,20 +2146,14 @@ check_buttons:
     mov al, [cs:kbdbuf + si]       ;scan array of clickes
 	cmp al,0
 	je cont
-watergirlmove:	
-    push di
-    push 10
-    call borders
-    pop ax
-    cmp al,'d'
-    jne fireboymove
+watergirlmove:
     push dx
     push di
     call watergirlmove1
     pop di
     pop dx
 fireboymove:
-    push di
+    push bx
     push 10
     call borders
     pop ax
@@ -2171,6 +2181,10 @@ cont:
     pop di
     cmp dx,'e'
     je e1
+    call gforcefire
+    push di
+    call gforcewater
+    pop di
     push dx
     call enterdoors
     pop dx
