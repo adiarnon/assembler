@@ -1365,45 +1365,11 @@ waterup:
     call watergirl_up
     pop di
     pop dx
-    cmp al,'l'
-    jne rightuw
-    mov si,1
-    push dx
-    push di
-    call watergirl_left
-    pop di
-    pop dx
-    jmp updatecl1
-    rightuw:
-    mov si,3
-    push dx
-    push di
-    call watergirl_right
-    pop di
-    pop dx
     jmp updatecl1
 movedown1:
     push dx
     push di
     call watergirl_down
-    pop di
-    pop dx
-    cmp al,'l'
-    jne rightwd
-    mov si,1
-    push dx
-    push di
-    call watergirl_left
-    pop di
-    pop dx
-    jmp updatecl1
-    rightwd:
-    cmp al,'r'
-    jne updatecl1
-    mov si,3
-    push dx
-    push di
-    call watergirl_right
     pop di
     pop dx
 updatecl1:
