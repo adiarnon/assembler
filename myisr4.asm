@@ -827,7 +827,7 @@ jne outtu
 mov al,[gforcey]
 cmp al,0
 jne nothingchange
-mov [gforcey],60
+mov [gforcey],62
 nothingchange:
 push di
 push si
@@ -886,7 +886,7 @@ jne outtr2
 mov al,[gforcef]
 cmp al,0
 jne nothingchange1
-mov [gforcef],40
+mov [gforcef],62
 nothingchange1:
 push bx
 push si
@@ -1278,85 +1278,18 @@ pop bp
 ret 4
 endp backgroundl
 
-proc gforcefire
-push bx
-push ax
-push si
-push cx
-;---------------black box-------------
-mov cl,[gforcef]            ;speed
-mov al,[gforcef+1]          ;direction
-cmp cl,0
-je outf
-cmp cl,10
-jle movedown2
-fireup:
-    push dx
-    push bx
-    call fireboy_up
-    pop bx
-    pop dx
-    cmp al,'l'
-    jne rightuf
-    push dx
-    push bx
-    call fireboy_left
-    pop bx
-    pop dx
-    jmp updatecl
-    rightuf:
-    push dx
-    push bx
-    call fireboy_right
-    pop bx
-    pop dx
-    jmp updatecl
-movedown2:
-    push dx
-    push bx
-    call fireboy_down
-    pop bx
-    pop dx
-    cmp al,'l'
-    jne rightud
-    push dx
-    push bx
-    call fireboy_left
-    pop bx
-    pop dx
-    jmp updatecl
-    rightud:
-    push dx
-    push bx
-    call fireboy_right
-    pop bx
-    pop dx
-updatecl:
-    dec cl
-    mov [gforcef],cl
-;---------------black box-------------
-outf:
-pop cx
-pop si
-pop ax
-pop bx
-ret
-endp gforcefire
-
 proc gforcewater
 push bp
 mov bp,sp
-push bx
 push ax
 push dx
 push cx
 push di
 ;---------------black box-------------
 mov cl,[gforceY]            ;speed
-mov al,[gforceY+1]          ;direction
 cmp cl,0
 je outf1
-cmp cl,30
+cmp cl,31
 jl movedown1
 waterup:
     mov si,2
@@ -1382,10 +1315,50 @@ pop di
 pop cx
 pop dx
 pop ax
-pop bx
 pop bp
 ret
 endp gforcewater
+
+proc gforcefire
+push bp
+mov bp,sp
+push ax
+push dx
+push cx
+push bx
+;---------------black box-------------
+mov cl,[gforcef]            ;speed
+cmp cl,0
+je outf
+cmp cl,31
+jl movedown
+fireup:
+    mov si,6
+    push dx
+    push bx
+    call fireboy_up
+    pop bx
+    pop dx
+    jmp updatecl
+movedown:
+    push dx
+    push bx
+    call fireboy_down
+    pop bx
+    pop dx
+updatecl:
+    dec cl
+    mov [gforcef],cl
+    mov [bp+4],bx
+;---------------black box-------------
+outf:
+pop bx
+pop cx
+pop dx
+pop ax
+pop bp
+ret
+endp gforcefire
 
 proc cubebackground
 push bp
@@ -1950,6 +1923,7 @@ proc watergirlmove1
     mov bp,sp
     push dx
     push di
+    push ax
 ;------------
     push dx
     push di
@@ -1977,6 +1951,7 @@ notup:
     mov [bp+4],di
     mov [bp+6],dx
     
+    pop ax
     pop di
     pop dx
     pop bp
@@ -1987,18 +1962,26 @@ proc fireboymove1
     push bp
     mov bp,sp
     push dx
-    push di
+    push bx
+    push ax
 
     push dx
     push bx
     call fireboy_right
     pop bx
     pop dx
+    push bx
+    push 10
+    call borders
+    pop ax
+    cmp al,'d'
+    jne notup1
     push dx
     push bx
 	call fireboy_up
     pop bx
     pop dx
+    notup1:
     push dx
     push bx
     call fireboy_left
@@ -2007,7 +1990,8 @@ proc fireboymove1
     mov [bp+6],dx
     mov [bp+4],bx
 
-    pop di
+    pop ax
+    pop bx
     pop dx
     pop bp
 ret 
@@ -2108,7 +2092,7 @@ main_loop:                            ; none end loop: scan array kbdbuf
 	mov cx,8
 check_buttons:
     cmp [byte ptr cs:esc_key], 0       ; if clicked ?
-	jne toretttt                      ; yes ---> end the program
+	jne toret                     ; yes ---> end the program
     mov al, [cs:kbdbuf + si]       ;scan array of clickes
 	cmp al,0
 	je cont
@@ -2119,12 +2103,6 @@ watergirlmove:
     pop di
     pop dx
 fireboymove:
-    push bx
-    push 10
-    call borders
-    pop ax
-    cmp al,'d'
-    jne cont 
     push dx
     push bx
     call fireboymove1
@@ -2133,8 +2111,6 @@ fireboymove:
     cmp dx,'e'
     je e1
     jmp cont
-toretttt:
-    jmp toret
 cont:	
 	inc si
 	loop check_buttons
@@ -2147,7 +2123,9 @@ cont:
     pop di
     cmp dx,'e'
     je e1
+    push bx
     call gforcefire
+    pop bx
     push di
     call gforcewater
     pop di
