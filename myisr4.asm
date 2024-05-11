@@ -17,6 +17,7 @@ map db 'map.bmp',0
 victoryp db 'victory.bmp',0
 gameover db 'gameover.bmp',0
 gforce1 db 0
+frequency dw 50000
 gforceF db 0,'r'
 gforceY db 0,'r'
 level1 db 0
@@ -1690,7 +1691,7 @@ push cx
     mov cl,[gforce1]
     inc cl
     mov [gforce1],cl
-    cmp cl,5
+    cmp cl,4
     jne toout
     mov cx,0
     mov [gforce1],cl
@@ -1781,8 +1782,8 @@ jne outtu2
 cmp bx,(320*83)+281
 je changtod
 mov si,offset backgroundl1            ;offset backgroundf
-push si
-call print_backgroungl
+;push si
+;call print_backgroungl
 add dx,320*21
 mov cx,35
 push bx
@@ -1809,9 +1810,9 @@ continuelu:
 pop bx
 sub bx,320
 mov dx,offset level             ;offset fireboy
-push dx
-push bx
-call print_level
+;push dx
+;push bx
+;call print_level
 jmp outtu2
 changtod:
 mov al,'d'
@@ -1846,12 +1847,12 @@ cmp bx,(320*104)+281
 je updatetou
 mov dx,offset level             ;offset level
 mov si,offset backgroundl1            ;offset backgroundf
-push si
-call print_backgroungl	
+;push si
+;call print_backgroungl	
 add bx,320
-push dx
-push bx
-call print_level
+;push dx
+;push bx
+;call print_level
 jmp outtd2
 updatetou:
 mov al,'u'
@@ -1964,6 +1965,15 @@ proc fireboymove1
     push dx
     push bx
     push ax
+    push cx
+
+    ;mov cl,[frequency]
+    ;dec cl
+    ;mov [frequency],cl
+    ;cmp cl,5
+    ;jne outf2
+    ;mov cx,50
+    ;mov [frequency],cl
 
     push dx
     push bx
@@ -1987,9 +1997,11 @@ proc fireboymove1
     call fireboy_left
     pop bx
     pop dx
+    outf2:
     mov [bp+6],dx
     mov [bp+4],bx
 
+    pop cx
     pop ax
     pop bx
     pop dx
@@ -2084,12 +2096,20 @@ proc my_program
     push si
     call print_doors
     mov ax,(320*83)+281
-    push offset level
-    push ax
-    call print_level
+    ;push offset level
+    ;push ax
+    ;call print_level
 main_loop:                            ; none end loop: scan array kbdbuf
     mov si,0
 	mov cx,8
+    mov dx,[frequency]
+    dec dx
+    mov [frequency],dx
+    cmp dx,0
+    jne main_loop
+    mov dx,25000
+    mov [frequency],dx
+    xor dx,dx
 check_buttons:
     cmp [byte ptr cs:esc_key], 0       ; if clicked ?
 	jne toret                     ; yes ---> end the program
@@ -2681,7 +2701,7 @@ mov bx,[bp+6]                        ;fireboy   bx
     cmp si,1
     jne down
 left: 
-    dec bx
+    add bx,2
     mov cx,20
     next:
     mov ah,[es:bx]
@@ -2803,8 +2823,25 @@ start:
 	mov es,ax                        
 	mov ax, 13h
 	int 10h
+    xor ax,ax
+    wait1:
+    call openfile
+    call ReadHeader
+    call ReadPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    ;Wait for key press
+    call closefile
     menu1:
-    call openfilemenu
+    ;xor ax,ax
+    mov cx,8
+    mov bx,offset kbdbuf
+    reset:
+    mov [word ptr bx],0
+    inc bx
+    loop reset
+    call OpenFilemenu
     call ReadHeader
     call ReadPalette
     push offset palette
@@ -2817,22 +2854,7 @@ start:
     je exit
     cmp al,0dh
     jne menu1
-    call closefile
-    wait1:
-    call OpenFile
-    call ReadHeader
-    call ReadPalette
-    push offset palette
-    call CopyPal
-    call CopyBitmap
-    ;Wait for key press
-    mov ah,1
-    int 21h
-    cmp al,0dh
-    jne wait1
-    call closefile
 continue:
-    ;push [byte ptr map]
     call OpenFilemap
     call ReadHeader
     call ReadPalette
@@ -2849,7 +2871,7 @@ continue:
     cmp ax,'v'
     je menu1
     cmp ax,0
-    je exit
+    je menu1
     call OpenFilegameover
     call ReadHeader
     call ReadPalette
