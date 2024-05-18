@@ -21,7 +21,8 @@ frequency dw 50000
 gforceF db 0,'r'
 gforceY db 0,'r'
 level1 db 0
-menu db 'menu3.bmp',0
+menu db 'menu4.bmp',0
+instruction db 'instr.bmp',0
 leveldirection db 'd'
 levelplace dw (320*83)+281
 reddoor2  dw (320*22)+270, (320*22)+271,(320*22)+272, (320*22)+273, (320*22)+274,(320*22)+275
@@ -240,49 +241,6 @@ backgrounddf4   db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0
                 db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
                 db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
 
-cube    db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
-        db 253,251,251,251,251,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,251,251,251,251,251,253
-        db 253,251,251,251,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,251,251,251,251,251,253
-        db 253,251,251,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,251,251,251,251,253
-        db 253,251,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,251,251,251,253
-        db 253,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,7  ,7  ,7  ,251,251,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,7  ,7  ,7  ,7  ,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,245,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,245,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,245,245,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,7  ,7  ,7  ,245,247,7  ,253,253
-        db 253,253,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,245,7  ,7  ,245,247,245,7  ,253,253
-        db 253,251,251,7  ,7  ,7  ,7  ,7  ,7  ,7  ,245,245,245,245,245,247,245,247,251,251,253
-        db 253,251,251,251,7  ,7  ,7  ,7  ,245,245,245,245,245,247,247,247,247,251,251,251,253
-        db 253,251,251,251,251,7  ,7  ,7  ,245,245,245,245,247,247,247,247,251,251,251,251,253
-        db 253,251,251,251,251,251,7  ,7  ,7  ,7  ,7  ,245,247,247,247,251,251,251,251,251,253
-        db 253,251,251,251,251,251,253,253,253,253,253,253,253,253,253,251,251,251,251,251,253
-        db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
-
-cubebackground1 db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-                db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  
-
 fireboy db 253,253,253,253,253,253,253,253,253,253,253,253,253,253,253
         db 253,253,253,253,0  ,0  ,253,253,253,0  ,0  ,253,253,253,253
         db 253,253,253,253,0  ,79 ,0  ,0  ,0  ,79 ,0  ,0  ,253,253,253
@@ -458,6 +416,21 @@ int 21h
 ret
 endp OpenFile
 
+proc openfileinstr
+mov ah, 3Dh
+xor al, al
+mov dx, offset instruction
+int 21h
+jc openerrori
+mov [filehandle], ax
+ret
+openerrori :
+mov dx, offset ErrorMsg
+mov ah, 9h
+int 21h
+ret
+endp openfileinstr
+
 proc OpenFilegameover
 ; Open file
 mov ah, 3Dh
@@ -505,7 +478,7 @@ push dx
 push ax
 
 ;----------------------black box-------------------------
-mov si,[bp+4]
+mov si,[bp+4]           ;offset palete
 mov cx,256
 mov dx,3C8h
 mov al,0
@@ -2156,11 +2129,11 @@ cont:
     je victorypic 
     mov si,[levelplace]
     mov al,[leveldirection]
-    push ax
-    push si
-    call movelevel
-    pop si
-    pop ax
+    ;push ax
+    ;push si
+    ;call movelevel
+    ;pop si
+    ;pop ax
     mov [levelplace],si
     mov [leveldirection],al
     call delay
@@ -2408,7 +2381,7 @@ proc print_fireboy
     push dx
     push si
 ;-----------black_box----------------
-    mov bx, [bp+4]      ;the fireboy adress
+    mov bx, [bp+4]      ;the fireboy adress on the screen
     mov si, [bp+6]
     mov cx, 20      ;the image lenght
     next_color8:
@@ -2811,6 +2784,16 @@ proc savebackgounds
 ret
 endp savebackgounds
 
+proc instr1
+    call openfileinstr
+    call readheader
+    call readPalette
+    push offset palette
+    call CopyPal
+    call CopyBitmap
+    call closefile
+ret
+endp instr1
 
 ;=====================================================================
 ;   Start code
@@ -2834,7 +2817,6 @@ start:
     ;Wait for key press
     call closefile
     menu1:
-    ;xor ax,ax
     mov cx,8
     mov bx,offset kbdbuf
     reset:
@@ -2850,10 +2832,15 @@ start:
     ;Wait for key press
     mov ah,1
     int 21h
-    cmp al,1bh
+    cmp al,1bh            ;esc pressed
     je exit
+    cmp al,'i'
+    je instuction
     cmp al,0dh
     jne menu1
+    jmp continue
+instuction:
+    call instr1
 continue:
     call OpenFilemap
     call ReadHeader
@@ -2870,8 +2857,9 @@ continue:
     pop ax
     cmp ax,'v'
     je menu1
-    cmp ax,0
+    cmp ax,0                         ;esc was pressed
     je menu1
+    wait2:
     call OpenFilegameover
     call ReadHeader
     call ReadPalette
@@ -2879,6 +2867,10 @@ continue:
     call CopyPal
     call CopyBitmap
     call closefile
+    mov ah,1
+    int 21h
+    cmp al,0dh
+    jne wait2
     jmp menu1
 exit:
 	mov ah, 0
