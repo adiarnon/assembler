@@ -385,6 +385,10 @@ bluedoor    db 0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0  ,0
 ;==========================================================
 CODESEG
 
+;--------------------------------------------------------------------------------------------------------
+;--------------------------------start uploading files---------------------------------------------------
+;--------------------------------------------------------------------------------------------------------
+
 proc OpenFilemenu
 ; Open file
 mov ah, 3Dh
@@ -562,7 +566,376 @@ mov bx, [filehandle]
 int 21h
 ret
 endp CloseFile
+;-----------------------------------------------------------------------------------------------
+;--------------------------------------end uploading files--------------------------------------
+;-----------------------------------------------------------------------------------------------
 
+;-----------------------------------------------------------------------------------------------
+;--------------------------------------start printing functions---------------------------------
+;-----------------------------------------------------------------------------------------------
+proc print_backgroundw
+push bp
+mov bp,sp
+push di
+push si
+push cx
+push ax
+;-----------black_box----------------
+    mov di, [bp+4]      ;the backgroundw adress on screen
+    mov si, [bp+6]
+    mov cx, 20      ;the image width
+    next_color6:
+
+
+        push cx
+        push di
+        mov cx, 30
+        draw_pixel6:
+            mov ah, [si]
+            mov [es:di], ah  
+            inc di
+            inc si
+            loop draw_pixel6
+        pop di
+        pop cx
+        add di, 320
+        loop next_color6
+
+;-----------black_box----------------
+pop ax
+pop cx
+pop si
+pop di
+pop bp
+ret 4
+endp print_backgroundw
+
+proc print_backgroungf
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov bx, [bp+4]      ;the backgroungf adress
+    mov si, [bp+6]
+    mov cx, 20      ;the image width
+    next_color3:
+
+
+        push cx
+        push bx
+        mov cx, 30
+        draw_pixel3:
+            mov ah, [si]
+
+            mov [es:bx], ah 
+            inc bx
+            inc si
+            loop draw_pixel3
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color3
+
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+    ret 4
+endp print_backgroungf
+
+proc print_backgroungl
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov bx, 320*83+281     ;the backgroungl adress
+    mov si, [bp+4]
+    mov cx, 29    ;the image width
+    next_color16:
+
+        push cx
+        push bx
+        mov cx, 35
+        draw_pixel16:
+            mov ah, [si]
+            mov [es:bx], ah 
+            inc bx
+            inc si
+            loop draw_pixel16
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color16
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+    ret 2
+endp print_backgroungl
+
+proc print_fireboy
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov bx, [bp+4]      ;the fireboy adress on the screen
+    mov si, [bp+6]
+    mov cx, 20      ;the image lenght
+    next_color8:
+        push cx
+        push bx
+        mov cx, 15
+        draw_pixel8:
+            mov ah, [si]                 ;offset fireboy
+            cmp ah, 253
+            je next_pixel8
+            mov [es:bx], ah  
+            next_pixel8:
+            inc bx
+            inc si
+            loop draw_pixel8
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color8
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+    ret 4
+endp print_fireboy
+
+proc print_watergirl
+    push bp
+    mov bp, sp
+    push ax
+    push di
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the watergirl adress
+    mov si, [bp+6]
+    mov cx, 20        ;the image width
+    next_color4:
+
+
+        push cx
+        push di
+        mov cx, 15      ;image length 
+        draw_pixel4:
+            mov ah, [si]
+            cmp ah, 253
+            je next_pixel4
+            mov [es:di], ah  
+            next_pixel4:
+            inc di
+            inc si
+            loop draw_pixel4
+        pop di
+        pop cx
+        add di, 320
+        loop next_color4
+
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop di
+    pop ax
+    pop bp
+    ret 4
+endp print_watergirl
+
+
+proc print_level
+    push bp
+    mov bp, sp
+    push ax
+    push di
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the level adress on the screen
+    mov si, [bp+6]      ;offset level
+    mov cx, 8        ;the image width
+    next_color15:
+        push cx
+        push di
+        mov cx, 35    ;image length 
+        draw_pixel15:
+            mov ah, [si]
+            mov [es:di], ah  
+            inc di
+            inc si
+            loop draw_pixel15
+        pop di
+        pop cx
+        add di, 320
+        loop next_color15
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop di
+    pop ax
+    pop bp
+    ret 4
+endp print_level
+
+proc print_doors
+    push bp
+    mov bp, sp
+    push ax
+    push di
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the door adress on the screen
+    mov si, [bp+6]      ;offset reddoor/bluedoor
+    mov cx, 25        ;the image width
+    next_color13:
+
+
+        push cx
+        push di
+        mov cx, 22      ;image length 
+        draw_pixel13:
+            mov ah, [si]
+            cmp ah, 253
+            je next_pixel13
+            mov [es:di], ah  
+            next_pixel13:
+            inc di
+            inc si
+            loop draw_pixel13
+        pop di
+        pop cx
+        add di, 320
+        loop next_color13
+
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop di
+    pop ax
+    pop bp
+ret 4
+endp print_doors
+
+proc printdimond
+push bp
+mov bp, sp
+push ax
+push di
+push cx
+push dx
+push si
+;-----------black_box----------------
+    mov di, [bp+4]      ;the bluedimond adress/reddimond adress on the screen
+    mov si, [bp+6]
+    mov cx, 15      ;the image width
+    next_color5:
+
+
+        push cx
+        push di
+        mov cx, 15      ;image length 
+        draw_pixel5:
+            mov ah, [si]
+            cmp ah, 253
+            je next_pixel5
+            mov [es:di], ah  
+            next_pixel5:
+            inc di
+            inc si
+            loop draw_pixel5
+        pop di
+        pop cx
+        add di, 320
+        loop next_color5
+
+
+;-----------black_box----------------
+pop si
+pop dx
+pop cx
+pop di
+pop ax
+pop bp
+ret 4
+endp printdimond
+
+proc printbackgroundd
+    push bp
+    mov bp, sp
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+;-----------black_box----------------
+    mov bx, [bp+4]      ;the backgroungf adress
+    mov si, [bp+6]
+    mov cx, 15      ;the image width
+    next_color9:
+
+        push cx
+        push bx
+        mov cx, 15
+        draw_pixel9:
+            mov ah, [si]
+            mov [es:bx], ah  
+            inc bx
+            inc si
+            loop draw_pixel9
+        pop bx
+        pop cx
+        add bx, 320
+        loop next_color9
+
+
+;-----------black_box----------------
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    pop bp
+    ret 4
+endp printbackgroundd
+
+;-----------------------------------------------------------------------------------------------
+;--------------------------------------end printing functions-----------------------------------
+;-----------------------------------------------------------------------------------------------
 proc delay
     push si
 	push cx
@@ -1409,45 +1782,6 @@ pop bp
 ret 4
 endp backgroundd
 
-proc printbackgroundd
-    push bp
-    mov bp, sp
-    push ax
-    push bx
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov bx, [bp+4]      ;the backgroungf adress
-    mov si, [bp+6]
-    mov cx, 15      ;the image width
-    next_color9:
-
-        push cx
-        push bx
-        mov cx, 15
-        draw_pixel9:
-            mov ah, [si]
-            mov [es:bx], ah  
-            inc bx
-            inc si
-            loop draw_pixel9
-        pop bx
-        pop cx
-        add bx, 320
-        loop next_color9
-
-
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    pop bp
-    ret 4
-endp printbackgroundd
-
 proc taking_reddimonds
 push bp
 mov bp,sp
@@ -1697,45 +2031,6 @@ pop ax
 pop bp
 ret 
 endp gforce
-
-proc print_backgroungl
-    push bp
-    mov bp, sp
-    push ax
-    push bx
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov bx, 320*83+281     ;the backgroungl adress
-    mov si, [bp+4]
-    mov cx, 29    ;the image width
-    next_color16:
-
-        push cx
-        push bx
-        mov cx, 35
-        draw_pixel16:
-            mov ah, [si]
-            mov [es:bx], ah 
-            inc bx
-            inc si
-            loop draw_pixel16
-        pop bx
-        pop cx
-        add bx, 320
-        loop next_color16
-
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    pop bp
-    ret 2
-ret 
-endp print_backgroungl
 
 proc levelup
 push bp
@@ -2258,83 +2553,6 @@ end_check:
     iret
 endp my_isr
 
-proc print_backgroungf
-    push bp
-    mov bp, sp
-    push ax
-    push bx
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov bx, [bp+4]      ;the backgroungf adress
-    mov si, [bp+6]
-    mov cx, 20      ;the image width
-    next_color3:
-
-
-        push cx
-        push bx
-        mov cx, 30
-        draw_pixel3:
-            mov ah, [si]
-
-            mov [es:bx], ah 
-            inc bx
-            inc si
-            loop draw_pixel3
-        pop bx
-        pop cx
-        add bx, 320
-        loop next_color3
-
-
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    pop bp
-    ret 4
-endp print_backgroungf
-
-proc print_backgroundw
-push bp
-mov bp,sp
-push di
-push si
-push cx
-push ax
-;-----------black_box----------------
-    mov di, [bp+4]      ;the backgroundw adress on screen
-    mov si, [bp+6]
-    mov cx, 20      ;the image width
-    next_color6:
-
-
-        push cx
-        push di
-        mov cx, 30
-        draw_pixel6:
-            mov ah, [si]
-            mov [es:di], ah  
-            inc di
-            inc si
-            loop draw_pixel6
-        pop di
-        pop cx
-        add di, 320
-        loop next_color6
-
-;-----------black_box----------------
-pop ax
-pop cx
-pop si
-pop di
-pop bp
-ret 4
-endp print_backgroundw
 
 proc print_backgroundc
 push bp
@@ -2372,167 +2590,6 @@ pop di
 pop bp
 ret 4
 endp print_backgroundc
-
-proc print_fireboy
-    push bp
-    mov bp, sp
-    push ax
-    push bx
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov bx, [bp+4]      ;the fireboy adress on the screen
-    mov si, [bp+6]
-    mov cx, 20      ;the image lenght
-    next_color8:
-        push cx
-        push bx
-        mov cx, 15
-        draw_pixel8:
-            mov ah, [si]                 ;offset fireboy
-            cmp ah, 253
-            je next_pixel8
-            mov [es:bx], ah  
-            next_pixel8:
-            inc bx
-            inc si
-            loop draw_pixel8
-        pop bx
-        pop cx
-        add bx, 320
-        loop next_color8
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    pop bp
-    ret 4
-endp print_fireboy
-
-proc print_level
-    push bp
-    mov bp, sp
-    push ax
-    push di
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov di, [bp+4]      ;the level adress on the screen
-    mov si, [bp+6]      ;offset level
-    mov cx, 8        ;the image width
-    next_color15:
-        push cx
-        push di
-        mov cx, 35    ;image length 
-        draw_pixel15:
-            mov ah, [si]
-            mov [es:di], ah  
-            inc di
-            inc si
-            loop draw_pixel15
-        pop di
-        pop cx
-        add di, 320
-        loop next_color15
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop di
-    pop ax
-    pop bp
-    ret 4
-endp print_level
-
-proc print_watergirl
-    push bp
-    mov bp, sp
-    push ax
-    push di
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov di, [bp+4]      ;the watergirl adress
-    mov si, [bp+6]
-    mov cx, 20        ;the image width
-    next_color4:
-
-
-        push cx
-        push di
-        mov cx, 15      ;image length 
-        draw_pixel4:
-            mov ah, [si]
-            cmp ah, 253
-            je next_pixel4
-            mov [es:di], ah  
-            next_pixel4:
-            inc di
-            inc si
-            loop draw_pixel4
-        pop di
-        pop cx
-        add di, 320
-        loop next_color4
-
-
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop di
-    pop ax
-    pop bp
-    ret 4
-endp print_watergirl
-
-proc print_doors
-    push bp
-    mov bp, sp
-    push ax
-    push di
-    push cx
-    push dx
-    push si
-;-----------black_box----------------
-    mov di, [bp+4]      ;the door adress on the screen
-    mov si, [bp+6]      ;offset reddoor/bluedoor
-    mov cx, 25        ;the image width
-    next_color13:
-
-
-        push cx
-        push di
-        mov cx, 22      ;image length 
-        draw_pixel13:
-            mov ah, [si]
-            cmp ah, 253
-            je next_pixel13
-            mov [es:di], ah  
-            next_pixel13:
-            inc di
-            inc si
-            loop draw_pixel13
-        pop di
-        pop cx
-        add di, 320
-        loop next_color13
-
-
-;-----------black_box----------------
-    pop si
-    pop dx
-    pop cx
-    pop di
-    pop ax
-    pop bp
-ret 4
-endp print_doors
 
 proc print_cube
     push bp
@@ -2575,49 +2632,6 @@ proc print_cube
     pop bp
 ret 4
 endp print_cube
-
-proc printdimond
-push bp
-mov bp, sp
-push ax
-push di
-push cx
-push dx
-push si
-;-----------black_box----------------
-    mov di, [bp+4]      ;the bluedimond adress/reddimond adress on the screen
-    mov si, [bp+6]
-    mov cx, 15      ;the image width
-    next_color5:
-
-
-        push cx
-        push di
-        mov cx, 15      ;image length 
-        draw_pixel5:
-            mov ah, [si]
-            cmp ah, 253
-            je next_pixel5
-            mov [es:di], ah  
-            next_pixel5:
-            inc di
-            inc si
-            loop draw_pixel5
-        pop di
-        pop cx
-        add di, 320
-        loop next_color5
-
-
-;-----------black_box----------------
-pop si
-pop dx
-pop cx
-pop di
-pop ax
-pop bp
-ret 4
-endp printdimond
 
 proc OpenFilemap
 ; Open file
